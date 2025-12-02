@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOK Demo Dashboard — AI Content Generation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent: #ff6b35;
+            --accent-light: #ff8f66;
+            --accent-glow: rgba(255, 107, 53, 0.15);
+            --border: rgba(255, 255, 255, 0.08);
+            --gradient-orange: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --shadow-glow: 0 0 40px rgba(255, 107, 53, 0.3);
+        }
+
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Sidebar Navigation */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            padding: 32px 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 48px;
+        }
+
+        .logo-text {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 24px;
+            background: var(--gradient-orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-section {
+            margin-bottom: 32px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 12px;
+            padding: 0 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: var(--accent-glow);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 32px;
+        }
+
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-header {
+            margin-bottom: 32px;
+        }
+
+        .section-title {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        /* Cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-glow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent);
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .card-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        /* Generator Section */
+        .generator-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+
+        .generator-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn-generate {
+            width: 100%;
+            background: var(--gradient-orange);
+            border: none;
+            border-radius: 8px;
+            padding: 14px 24px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--bg-primary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-generate:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-generate:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-preview {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            min-height: 300px;
+            position: relative;
+        }
+
+        .result-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 300px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .result-empty svg {
+            width: 64px;
+            height: 64px;
+            stroke: var(--text-muted);
+            stroke-width: 1.5;
+            fill: none;
+            margin-bottom: 16px;
+        }
+
+        .result-content {
+            line-height: 1.8;
+            white-space: pre-wrap;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .btn-action {
+            flex: 1;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-action:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-action svg {
+            width: 16px;
+            height: 16px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Loading Animation */
+        .loading-dots {
+            display: inline-flex;
+            gap: 4px;
+        }
+
+        .loading-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: bounce 1.4s infinite ease-in-out;
+        }
+
+        .loading-dot:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounce {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* API Key Input */
+        .api-notice {
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--accent);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: start;
+            gap: 12px;
+        }
+
+        .api-notice svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--accent);
+            stroke-width: 2;
+            fill: none;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .api-notice-text {
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .generator-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+                padding: 24px 12px;
+            }
+
+            .logo-text,
+            .nav-section-title,
+            .nav-item span {
+                display: none;
+            }
+
+            .main-content {
+                margin-left: 80px;
+            }
+
+            .nav-item {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // SVG Icons Component
+        const Icons = {
+            Home: () => (
+                <svg className="nav-icon" viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            ),
+            Sparkles: () => (
+                <svg className="nav-icon" viewBox="0 0 24 24">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                </svg>
+            ),
+            Library: () => (
+                <svg className="nav-icon" viewBox="0 0 24 24">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+            ),
+            Eye: () => (
+                <svg className="nav-icon" viewBox="0 0 24 24">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+            ),
+            Settings: () => (
+                <svg className="nav-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="3"></circle>
+                    <path d="M12 1v6m0 6v6m-5-5h6m6 0h-6m4.95-8.49l-4.24 4.24m-4.24 4.24l-4.24 4.24m10.48 0l-4.24-4.24M7.05 7.05L2.81 2.81"></path>
+                </svg>
+            ),
+            AlertCircle: () => (
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            ),
+            Copy: () => (
+                <svg viewBox="0 0 24 24">
+                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+            ),
+            Download: () => (
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+            ),
+            FileText: () => (
+                <svg viewBox="0 0 24 24">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            )
+        };
+
+        // Main Dashboard Component
+        const DemoDashboard = () => {
+            const [activeSection, setActiveSection] = useState('home');
+            const [apiKey, setApiKey] = useState('');
+            const [generating, setGenerating] = useState(false);
+            const [generatedContent, setGeneratedContent] = useState('');
+
+            // Generator Form State
+            const [contentType, setContentType] = useState('post');
+            const [niche, setNiche] = useState('');
+            const [topic, setTopic] = useState('');
+            const [tone, setTone] = useState('professional');
+
+            // Templates Library
+            const templates = [
+                {
+                    icon: <Icons.Sparkles />,
+                    title: 'Автодетейлинг',
+                    desc: 'Посты про керамику, полировку, химчистку салона',
+                    niche: 'detailing'
+                },
+                {
+                    icon: <Icons.Sparkles />,
+                    title: 'Салон красоты',
+                    desc: 'Контент про процедуры, акции, результаты',
+                    niche: 'beauty'
+                },
+                {
+                    icon: <Icons.Sparkles />,
+                    title: 'Фитнес-клуб',
+                    desc: 'Тренировки, питание, мотивация клиентов',
+                    niche: 'fitness'
+                },
+                {
+                    icon: <Icons.Sparkles />,
+                    title: 'Барбершоп',
+                    desc: 'Стрижки, уход за бородой, стильные образы',
+                    niche: 'barbershop'
+                },
+                {
+                    icon: <Icons.Sparkles />,
+                    title: 'Стоматология',
+                    desc: 'Процедуры, кейсы до/после, советы',
+                    niche: 'dental'
+                },
+                {
+                    icon: <Icons.Sparkles />,
+                    title: 'Ресторан/Кафе',
+                    desc: 'Меню, блюда, атмосфера, события',
+                    niche: 'restaurant'
+                }
+            ];
+
+            const handleGenerate = async () => {
+                if (!apiKey) {
+                    alert('Пожалуйста, введите API ключ в настройках');
+                    setActiveSection('settings');
+                    return;
+                }
+
+                if (!topic) {
+                    alert('Пожалуйста, введите тему поста');
+                    return;
+                }
+
+                setGenerating(true);
+                
+                try {
+                    // TODO: Здесь будет реальный API call к GPT
+                    // Пока делаем mock
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    const mockContent = `🔥 ${topic}
+
+Представляем новую услугу в нашем ${niche || 'бизнесе'}!
+
+✨ Что вы получите:
+• Профессиональный подход
+• Качественный результат
+• Индивидуальный подход
+
+📞 Запись: +7 (999) 123-45-67
+📍 Адрес: ул. Примерная, 123
+
+#${niche} #качество #услуги`;
+
+                    setGeneratedContent(mockContent);
+                } catch (error) {
+                    alert('Ошибка генерации: ' + error.message);
+                } finally {
+                    setGenerating(false);
+                }
+            };
+
+            const handleTemplateClick = (templateNiche) => {
+                setNiche(templateNiche);
+                setActiveSection('generator');
+            };
+
+            const copyToClipboard = () => {
+                navigator.clipboard.writeText(generatedContent);
+                alert('Скопировано в буфер обмена!');
+            };
+
+            return (
+                <div className="dashboard-container">
+                    {/* Sidebar */}
+                    <aside className="sidebar">
+                        <div className="logo">
+                            <div className="logo-text">WOK</div>
+                        </div>
+
+                        <nav>
+                            <div className="nav-section">
+                                <div className="nav-section-title">Главное</div>
+                                <div 
+                                    className={`nav-item ${activeSection === 'home' ? 'active' : ''}`}
+                                    onClick={() => setActiveSection('home')}
+                                >
+                                    <Icons.Home />
+                                    <span>Главная</span>
+                                </div>
+                            </div>
+
+                            <div className="nav-section">
+                                <div className="nav-section-title">Контент</div>
+                                <div 
+                                    className={`nav-item ${activeSection === 'generator' ? 'active' : ''}`}
+                                    onClick={() => setActiveSection('generator')}
+                                >
+                                    <Icons.Sparkles />
+                                    <span>Генератор</span>
+                                </div>
+                                <div 
+                                    className={`nav-item ${activeSection === 'templates' ? 'active' : ''}`}
+                                    onClick={() => setActiveSection('templates')}
+                                >
+                                    <Icons.Library />
+                                    <span>Библиотека</span>
+                                </div>
+                                <div 
+                                    className={`nav-item ${activeSection === 'preview' ? 'active' : ''}`}
+                                    onClick={() => setActiveSection('preview')}
+                                >
+                                    <Icons.Eye />
+                                    <span>Превью</span>
+                                </div>
+                            </div>
+
+                            <div className="nav-section">
+                                <div className="nav-section-title">Система</div>
+                                <div 
+                                    className={`nav-item ${activeSection === 'settings' ? 'active' : ''}`}
+                                    onClick={() => setActiveSection('settings')}
+                                >
+                                    <Icons.Settings />
+                                    <span>Настройки</span>
+                                </div>
+                            </div>
+                        </nav>
+                    </aside>
+
+                    {/* Main Content */}
+                    <main className="main-content">
+                        {/* Home Section */}
+                        <section className={`content-section ${activeSection === 'home' ? 'active' : ''}`}>
+                            <div className="section-header">
+                                <h1 className="section-title">Демо панель WOK</h1>
+                                <p className="section-subtitle">AI-генерация контента для вашего бизнеса</p>
+                            </div>
+
+                            <div className="card-grid">
+                                <div className="card" onClick={() => setActiveSection('generator')}>
+                                    <div className="card-icon">
+                                        <Icons.Sparkles />
+                                    </div>
+                                    <h3 className="card-title">Генератор контента</h3>
+                                    <p className="card-desc">Создавайте посты для соцсетей за 30 секунд с помощью AI</p>
+                                </div>
+
+                                <div className="card" onClick={() => setActiveSection('templates')}>
+                                    <div className="card-icon">
+                                        <Icons.Library />
+                                    </div>
+                                    <h3 className="card-title">Библиотека шаблонов</h3>
+                                    <p className="card-desc">Готовые промпты для разных ниш и типов контента</p>
+                                </div>
+
+                                <div className="card" onClick={() => setActiveSection('preview')}>
+                                    <div className="card-icon">
+                                        <Icons.Eye />
+                                    </div>
+                                    <h3 className="card-title">Превью результата</h3>
+                                    <p className="card-desc">Просмотр и редактирование сгенерированного контента</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Generator Section */}
+                        <section className={`content-section ${activeSection === 'generator' ? 'active' : ''}`}>
+                            <div className="section-header">
+                                <h1 className="section-title">Генератор контента</h1>
+                                <p className="section-subtitle">Создайте пост для соцсетей с помощью AI</p>
+                            </div>
+
+                            <div className="generator-container">
+                                <div className="generator-panel">
+                                    <h3 className="panel-title">Параметры генерации</h3>
+
+                                    <div className="form-group">
+                                        <label className="form-label">Тип контента</label>
+                                        <select 
+                                            className="form-select"
+                                            value={contentType}
+                                            onChange={(e) => setContentType(e.target.value)}
+                                        >
+                                            <option value="post">Пост в соцсети</option>
+                                            <option value="story">Сторис</option>
+                                            <option value="email">Email-рассылка</option>
+                                            <option value="ad">Рекламный текст</option>
+                                        </select>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label className="form-label">Ниша бизнеса</label>
+                                        <input 
+                                            type="text"
+                                            className="form-input"
+                                            placeholder="Например: автодетейлинг"
+                                            value={niche}
+                                            onChange={(e) => setNiche(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label className="form-label">Тема поста</label>
+                                        <textarea 
+                                            className="form-textarea"
+                                            placeholder="Например: Новая услуга керамического покрытия. Защита на 3-5 лет."
+                                            value={topic}
+                                            onChange={(e) => setTopic(e.target.value)}
+                                        />
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label className="form-label">Тон общения</label>
+                                        <select 
+                                            className="form-select"
+                                            value={tone}
+                                            onChange={(e) => setTone(e.target.value)}
+                                        >
+                                            <option value="professional">Профессиональный</option>
+                                            <option value="friendly">Дружелюбный</option>
+                                            <option value="energetic">Энергичный</option>
+                                            <option value="luxury">Премиум/Люкс</option>
+                                        </select>
+                                    </div>
+
+                                    <button 
+                                        className="btn-generate"
+                                        onClick={handleGenerate}
+                                        disabled={generating}
+                                    >
+                                        {generating ? (
+                                            <>
+                                                Генерация
+                                                <span className="loading-dots">
+                                                    <span className="loading-dot"></span>
+                                                    <span className="loading-dot"></span>
+                                                    <span className="loading-dot"></span>
+                                                </span>
+                                            </>
+                                        ) : 'Сгенерировать контент'}
+                                    </button>
+                                </div>
+
+                                <div className="generator-panel">
+                                    <h3 className="panel-title">Результат</h3>
+
+                                    <div className="result-preview">
+                                        {!generatedContent ? (
+                                            <div className="result-empty">
+                                                <Icons.FileText />
+                                                <p>Здесь появится сгенерированный контент</p>
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className="result-content">
+                                                    {generatedContent}
+                                                </div>
+                                                <div className="result-actions">
+                                                    <button className="btn-action" onClick={copyToClipboard}>
+                                                        <Icons.Copy />
+                                                        Копировать
+                                                    </button>
+                                                    <button className="btn-action">
+                                                        <Icons.Download />
+                                                        Скачать
+                                                    </button>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Templates Section */}
+                        <section className={`content-section ${activeSection === 'templates' ? 'active' : ''}`}>
+                            <div className="section-header">
+                                <h1 className="section-title">Библиотека шаблонов</h1>
+                                <p className="section-subtitle">Готовые промпты для разных ниш бизнеса</p>
+                            </div>
+
+                            <div className="card-grid">
+                                {templates.map((template, index) => (
+                                    <div 
+                                        key={index} 
+                                        className="card"
+                                        onClick={() => handleTemplateClick(template.niche)}
+                                    >
+                                        <div className="card-icon">
+                                            {template.icon}
+                                        </div>
+                                        <h3 className="card-title">{template.title}</h3>
+                                        <p className="card-desc">{template.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+
+                        {/* Preview Section */}
+                        <section className={`content-section ${activeSection === 'preview' ? 'active' : ''}`}>
+                            <div className="section-header">
+                                <h1 className="section-title">Превью результата</h1>
+                                <p className="section-subtitle">Просмотр сгенерированного контента</p>
+                            </div>
+
+                            <div className="generator-panel">
+                                <h3 className="panel-title">Последний сгенерированный контент</h3>
+                                
+                                <div className="result-preview">
+                                    {!generatedContent ? (
+                                        <div className="result-empty">
+                                            <Icons.FileText />
+                                            <p>Пока нет сгенерированного контента</p>
+                                            <button 
+                                                className="btn-generate"
+                                                style={{marginTop: '16px', maxWidth: '200px'}}
+                                                onClick={() => setActiveSection('generator')}
+                                            >
+                                                Создать контент
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <div className="result-content">
+                                                {generatedContent}
+                                            </div>
+                                            <div className="result-actions">
+                                                <button className="btn-action" onClick={copyToClipboard}>
+                                                    <Icons.Copy />
+                                                    Копировать
+                                                </button>
+                                                <button className="btn-action">
+                                                    <Icons.Download />
+                                                    Скачать
+                                                </button>
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Settings Section */}
+                        <section className={`content-section ${activeSection === 'settings' ? 'active' : ''}`}>
+                            <div className="section-header">
+                                <h1 className="section-title">Настройки</h1>
+                                <p className="section-subtitle">Конфигурация API и параметров генерации</p>
+                            </div>
+
+                            <div className="generator-panel" style={{maxWidth: '600px'}}>
+                                <h3 className="panel-title">API Конфигурация</h3>
+
+                                <div className="api-notice">
+                                    <Icons.AlertCircle />
+                                    <div className="api-notice-text">
+                                        <strong>Введите ваш OpenAI API ключ</strong><br />
+                                        Ключ хранится только в вашем браузере и используется для генерации контента.
+                                    </div>
+                                </div>
+
+                                <div className="form-group">
+                                    <label className="form-label">OpenAI API Key</label>
+                                    <input 
+                                        type="password"
+                                        className="form-input"
+                                        placeholder="sk-..."
+                                        value={apiKey}
+                                        onChange={(e) => setApiKey(e.target.value)}
+                                    />
+                                </div>
+
+                                <button 
+                                    className="btn-generate"
+                                    onClick={() => {
+                                        localStorage.setItem('wok_api_key', apiKey);
+                                        alert('API ключ сохранён!');
+                                    }}
+                                >
+                                    Сохранить настройки
+                                </button>
+                            </div>
+                        </section>
+                    </main>
+                </div>
+            );
+        };
+
+        // Render App
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<DemoDashboard />);
+    </script>
+</body>
+</html>
