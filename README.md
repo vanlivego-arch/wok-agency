@@ -1,1 +1,0 @@
-# Wok Agency\nThis is the README for Wok Agency project.
