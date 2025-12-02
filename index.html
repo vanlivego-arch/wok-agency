@@ -1,0 +1,2452 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Автоматизация маркетинга для локального бизнеса | WOK Agency</title>
+    <meta name="description" content="Автоматизация маркетинга для салонов, автодетейлинга, фитнес-клубов: чат-боты Telegram, автопостинг ВК, CRM интеграция. От 30К₽/мес. Тест 7 дней бесплатно.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://wok-agency-cmo.vercel.app/">
+    
+    <!-- Open Graph для соцсетей -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Автоматизация маркетинга для локального бизнеса | WOK Agency">
+    <meta property="og:description" content="Чат-боты Telegram, автопостинг ВК, CRM интеграция. От 30К₽/мес. Тест 7 дней бесплатно.">
+    <meta property="og:url" content="https://wok-agency-cmo.vercel.app/">
+    <meta property="og:image" content="https://wok-agency-cmo.vercel.app/og-image.jpg">
+    
+    <!-- Preconnect для ускорения загрузки -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- React Scripts с crossorigin -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Schema.org: Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "WOK Agency",
+      "description": "AI-платформа автоматизации маркетинга для локального бизнеса в России",
+      "url": "https://wok-agency-cmo.vercel.app",
+      "areaServed": {"@type": "Country", "name": "Россия"}
+    }
+    </script>
+    
+    <!-- Schema.org: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Сколько стоит автоматизация маркетинга для малого бизнеса?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Базовая автоматизация маркетинга стоит от 30000 рублей в месяц. Полный пакет с чат-ботами и CRM интеграцией от 90000 рублей. Первые 7 дней бесплатно."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как работает чат-бот для салона красоты в Telegram?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Чат-бот принимает заявки на запись 24/7, отправляет напоминания за 24 часа, собирает отзывы и информирует об акциях. Настройка занимает 30-60 минут."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Какие соцсети поддерживает автопостинг?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Автопостинг работает для ВКонтакте, Telegram, Instagram и Одноклассники. AI генерирует уникальный контент под каждую площадку."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Можно ли интегрировать с моей CRM?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да, мы интегрируемся с Битрикс24, amoCRM, Мегаплан, YCLIENTS, Notion, Pipedrive и любой кастомной CRM через API."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Есть ли пробный период?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Да, первые 7 дней полностью бесплатно с доступом ко всем функциям. Без привязки карты."
+          }
+        }
+      ]
+    }
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========== LANDING STYLES ========== */
+        .landing {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent: #ff6b35;
+            --accent-light: #ff8f66;
+            --accent-glow: rgba(255, 107, 53, 0.15);
+            --border: #222222;
+            --gradient-orange: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            --shadow-glow: 0 0 60px rgba(255, 107, 53, 0.2);
+            
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .landing::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Navigation */
+        .landing nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 20px 0;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .landing nav.scrolled {
+            border-bottom-color: var(--border);
+        }
+
+        .landing nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--gradient-orange);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--bg-primary);
+            stroke: var(--bg-primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-cta {
+            background: var(--gradient-orange);
+            color: var(--bg-primary) !important;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Morphing Stats Dashboard Animation */
+        .morphing-dashboard {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 80px 0 0 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .morphing-dashboard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, var(--accent-glow) 50%, transparent 100%);
+            animation: shimmer 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .dashboard-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 32px;
+            text-align: center;
+        }
+
+        .stats-grid-animated {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card-animated {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-value {
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 8px;
+            animation: countUp 2s ease-out;
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .stat-label-animated {
+            font-size: 13px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-trend {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #22c55e;
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
+        }
+
+        .mini-chart {
+            height: 80px;
+            margin-top: 24px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--accent) 0%, var(--accent-light) 100%);
+            border-radius: 4px;
+            animation: growBar 1.5s ease-out backwards;
+            position: relative;
+        }
+
+        .chart-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 4px 4px 0 0;
+            animation: shimmerBar 2s infinite;
+        }
+
+        @keyframes growBar {
+            from {
+                transform: scaleY(0);
+                opacity: 0;
+            }
+            to {
+                transform: scaleY(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shimmerBar {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .chart-bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+        .chart-bar:nth-child(2) { height: 55%; animation-delay: 0.2s; }
+        .chart-bar:nth-child(3) { height: 45%; animation-delay: 0.3s; }
+        .chart-bar:nth-child(4) { height: 70%; animation-delay: 0.4s; }
+        .chart-bar:nth-child(5) { height: 85%; animation-delay: 0.5s; }
+        .chart-bar:nth-child(6) { height: 75%; animation-delay: 0.6s; }
+        .chart-bar:nth-child(7) { height: 90%; animation-delay: 0.7s; }
+        .chart-bar:nth-child(8) { height: 100%; animation-delay: 0.8s; }
+
+        .posts-preview {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 32px;
+        }
+
+        .post-card-mini {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            animation: slideIn 0.6s ease-out backwards;
+        }
+
+        .post-card-mini:nth-child(1) { animation-delay: 0.9s; }
+        .post-card-mini:nth-child(2) { animation-delay: 1.0s; }
+        .post-card-mini:nth-child(3) { animation-delay: 1.1s; }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .post-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #22c55e;
+            margin-bottom: 8px;
+        }
+
+        .post-status-dot {
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 1.5s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .post-text-mini {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -2px;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+
+        .hero h1 span {
+            background: var(--gradient-orange);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            max-width: 540px;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+
+        .btn-primary {
+            background: var(--gradient-orange);
+            color: var(--bg-primary);
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: inherit;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 16px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-secondary);
+            background: var(--bg-card);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            margin-top: 80px;
+            border-radius: 16px;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .stat {
+            background: var(--bg-card);
+            padding: 32px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 120px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto 64px;
+        }
+
+        .section-header h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -1px;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        .feature-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent-glow);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .feature-icon svg {
+            width: 24px;
+            height: 24px;
+            color: var(--accent);
+            stroke: var(--accent);
+        }
+
+        .feature-card h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        /* Comparison Section */
+        .comparison {
+            padding: 120px 0;
+            background: var(--bg-secondary);
+        }
+
+        .comparison-table {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-row.header {
+            background: var(--bg-secondary);
+        }
+
+        .comparison-cell {
+            padding: 20px 24px;
+            font-size: 14px;
+        }
+
+        .comparison-cell:not(:first-child) {
+            text-align: center;
+            border-left: 1px solid var(--border);
+        }
+
+        .comparison-row.header .comparison-cell {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .comparison-cell.highlight {
+            background: var(--accent-glow);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .check {
+            color: #22c55e;
+            font-size: 18px;
+        }
+
+        .cross {
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 120px 0;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--accent);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .pricing-card.enterprise {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(255, 107, 53, 0.05) 100%);
+            border: 2px solid var(--accent);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-orange);
+            color: var(--bg-primary);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .pricing-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .pricing-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .pricing-price {
+            font-size: 48px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .pricing-price span {
+            font-size: 16px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 32px 0;
+        }
+
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        .pricing-features li svg {
+            color: var(--accent);
+            stroke: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .pricing-card .btn-primary,
+        .pricing-card .btn-secondary {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* CTA Form Section */
+        .cta-section {
+            padding: 120px 0;
+            background: var(--bg-secondary);
+        }
+
+        .cta-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+
+        .cta-content p {
+            color: var(--text-secondary);
+            font-size: 18px;
+            margin-bottom: 32px;
+        }
+
+        .cta-benefits {
+            list-style: none;
+        }
+
+        .cta-benefits li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            color: var(--text-secondary);
+        }
+
+        .cta-benefits li svg {
+            color: var(--accent);
+            stroke: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .cta-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px;
+        }
+
+        .cta-form h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .cta-form > p {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin-bottom: 32px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--text-secondary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 40px;
+        }
+
+        .cta-form .btn-primary {
+            width: 100%;
+            justify-content: center;
+            padding: 18px 32px;
+            font-size: 16px;
+        }
+
+        .form-note {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Footer */
+        .landing footer {
+            padding: 64px 0 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+            cursor: pointer;
+        }
+
+        .footer-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* ========== DASHBOARD STYLES ========== */
+        .dashboard {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f8f9fb;
+            color: #1a1a2e;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 260px;
+            background: #ffffff;
+            border-right: 1px solid #e2e8f0;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 8px;
+            margin-bottom: 32px;
+            text-decoration: none;
+            color: #1a1a2e;
+            cursor: pointer;
+        }
+
+        .sidebar .logo-icon {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sidebar-logo span {
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+        }
+
+        .nav-section {
+            margin-bottom: 24px;
+        }
+
+        .nav-section-title {
+            font-size: 11px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0 12px;
+            margin-bottom: 8px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: #f8f9fb;
+            color: #1a1a2e;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            color: #4f46e5;
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-user {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background: #f8f9fb;
+            border-radius: 12px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: #1a1a2e;
+        }
+
+        .user-role {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 32px;
+            min-height: 100vh;
+            flex: 1;
+        }
+
+        /* Header */
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .page-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+            stroke: white;
+        }
+
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+
+        .page-subtitle {
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: #ffffff;
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 32px;
+            width: fit-content;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #64748b;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .tab:hover {
+            color: #1a1a2e;
+            background: #f8f9fb;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Section Title */
+        .section-title-dash {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #1a1a2e;
+        }
+
+        .section-title-dash svg {
+            width: 24px;
+            height: 24px;
+            color: #94a3b8;
+            stroke: #94a3b8;
+        }
+
+        /* UTP Card */
+        .utp-card {
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 32px;
+            color: white;
+        }
+
+        .utp-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .utp-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .utp-icon svg {
+            width: 20px;
+            height: 20px;
+            stroke: white;
+        }
+
+        .utp-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .utp-text {
+            font-size: 16px;
+            line-height: 1.7;
+            opacity: 0.95;
+        }
+
+        /* Two Column Layout */
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        /* Card */
+        .card {
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .card-header-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-header-icon.blue {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .card-header-icon.blue svg {
+            stroke: #3b82f6;
+        }
+
+        .card-header-icon.red {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+        .card-header-icon.red svg {
+            stroke: #ef4444;
+        }
+
+        .card-header-icon svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .card-header-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .card-body {
+            padding: 16px;
+        }
+
+        /* Message Items */
+        .message-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            background: #f8f9fb;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 3px solid #4f46e5;
+        }
+
+        .message-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .message-text {
+            font-size: 14px;
+            color: #1a1a2e;
+            line-height: 1.6;
+        }
+
+        /* Pain Items */
+        .pain-item {
+            padding: 16px;
+            background: #f8f9fb;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            border-left: 3px solid #ef4444;
+        }
+
+        .pain-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .pain-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #ef4444;
+            margin-bottom: 8px;
+        }
+
+        .pain-solution {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
+
+        .pain-solution strong {
+            color: #1a1a2e;
+        }
+
+        .pain-quote {
+            font-size: 12px;
+            color: #94a3b8;
+            font-style: italic;
+            padding-left: 12px;
+            border-left: 2px solid #e2e8f0;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .metric-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .metric-label {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 8px;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1a1a2e;
+            margin-bottom: 4px;
+        }
+
+        .metric-change {
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .metric-change.positive {
+            color: #22c55e;
+        }
+
+        .metric-change.negative {
+            color: #ef4444;
+        }
+
+        /* Action Plan */
+        .action-list {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .action-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-number {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1a1a2e;
+        }
+
+        .action-desc {
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .action-status {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .action-status.pending {
+            background: rgba(251, 191, 36, 0.1);
+            color: #f59e0b;
+        }
+
+        .action-status.done {
+            background: rgba(34, 197, 94, 0.1);
+            color: #22c55e;
+        }
+
+        .action-status.active {
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .two-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-wrapper {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                gap: 24px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // ========== ICONS ==========
+        const Icons = {
+            Fire: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/>
+                </svg>
+            ),
+            ArrowRight: () => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            ),
+            Check: () => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 6L9 17l-5-5"/>
+                </svg>
+            ),
+            Zap: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>
+            ),
+            Send: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/>
+                </svg>
+            ),
+            MessageSquare: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+            ),
+            PieChart: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M21.21 15.89A10 10 0 118 2.83"/><path d="M22 12A10 10 0 0012 2v10z"/>
+                </svg>
+            ),
+            Target: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
+                </svg>
+            ),
+            FileText: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/>
+                </svg>
+            ),
+            Calendar: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+                </svg>
+            ),
+            Users: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            ),
+            BarChart: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+                </svg>
+            ),
+            Settings: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
+                </svg>
+            ),
+            Star: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+            ),
+            Heart: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+                </svg>
+            ),
+            Activity: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+            ),
+            Play: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/>
+                </svg>
+            ),
+            Edit: () => (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+            ),
+            ChevronUp: () => (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 15l-6-6-6 6"/>
+                </svg>
+            ),
+            ArrowLeft: () => (
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"/>
+                </svg>
+            )
+        };
+
+        // ========== LOGO COMPONENT ==========
+        const Logo = ({ onClick, dark = false }) => (
+            <div className="logo" onClick={onClick} style={{ color: dark ? '#1a1a2e' : '#ffffff' }}>
+                <div className="logo-icon">
+                    <Icons.Fire />
+                </div>
+                <span>WOK</span>
+            </div>
+        );
+
+        // ========== LANDING PAGE ==========
+        // ========== ANIMATED COMPONENTS ==========
+
+        // Morphing Stats Dashboard (Вариант 4)
+        const MorphingDashboard = () => {
+            const [counters, setCounters] = useState({
+                posts: 0,
+                reach: 0,
+                leads: 0
+            });
+
+            useEffect(() => {
+                // Анимация счётчиков
+                const duration = 2000;
+                const steps = 60;
+                const interval = duration / steps;
+
+                let step = 0;
+                const timer = setInterval(() => {
+                    step++;
+                    const progress = step / steps;
+                    
+                    setCounters({
+                        posts: Math.floor(progress * 156),
+                        reach: Math.floor(progress * 45200),
+                        leads: Math.floor(progress * 324)
+                    });
+
+                    if (step >= steps) clearInterval(timer);
+                }, interval);
+
+                return () => clearInterval(timer);
+            }, []);
+
+            const formatNumber = (num) => {
+                if (num >= 1000) {
+                    return (num / 1000).toFixed(1) + 'K';
+                }
+                return num;
+            };
+
+            return (
+                <div className="morphing-dashboard">
+                    <div className="dashboard-title">Живая статистика работы AI</div>
+                    
+                    <div className="stats-grid-animated">
+                        <div className="stat-card-animated">
+                            <div className="stat-trend">↗ +12%</div>
+                            <div className="stat-value">{counters.posts}</div>
+                            <div className="stat-label-animated">Постов создано</div>
+                            <div className="mini-chart">
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className="chart-bar"></div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="stat-card-animated">
+                            <div className="stat-trend">↗ +28%</div>
+                            <div className="stat-value">{formatNumber(counters.reach)}</div>
+                            <div className="stat-label-animated">Охват аудитории</div>
+                            <div className="mini-chart">
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className="chart-bar"></div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="stat-card-animated">
+                            <div className="stat-trend">↗ +18%</div>
+                            <div className="stat-value">{counters.leads}</div>
+                            <div className="stat-label-animated">Новых лидов</div>
+                            <div className="mini-chart">
+                                {[...Array(8)].map((_, i) => (
+                                    <div key={i} className="chart-bar"></div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="posts-preview">
+                        <div className="post-card-mini">
+                            <div className="post-status">
+                                <span className="post-status-dot"></span>
+                                Опубликовано
+                            </div>
+                            <div className="post-text-mini">
+                                Керамическое покрытие защищает ваш автомобиль на 3-5 лет от царапин и УФ-лучей...
+                            </div>
+                        </div>
+
+                        <div className="post-card-mini">
+                            <div className="post-status">
+                                <span className="post-status-dot"></span>
+                                Опубликовано
+                            </div>
+                            <div className="post-text-mini">
+                                Скидка 20% на все услуги детейлинга до конца месяца. Запишитесь прямо сейчас...
+                            </div>
+                        </div>
+
+                        <div className="post-card-mini">
+                            <div className="post-status">
+                                <span className="post-status-dot"></span>
+                                Опубликовано
+                            </div>
+                            <div className="post-text-mini">
+                                Смотрите процесс полировки BMW X5 в нашем новом видео. Результат вас удивит...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // ========== LANDING PAGE ==========
+
+        const LandingPage = ({ onDashboard }) => {
+            const [scrolled, setScrolled] = useState(false);
+            const [formData, setFormData] = useState({ name: '', phone: '', business: '', message: '' });
+            const [submitted, setSubmitted] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 50);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            useEffect(() => {
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                            }
+                        });
+                    },
+                    { threshold: 0.1 }
+                );
+
+                document.querySelectorAll('.feature-card').forEach(el => observer.observe(el));
+                return () => observer.disconnect();
+            }, []);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                console.log('Form submitted:', formData);
+                setSubmitted(true);
+                setTimeout(() => {
+                    setSubmitted(false);
+                    setFormData({ name: '', phone: '', business: '', message: '' });
+                }, 3000);
+            };
+
+            const features = [
+                { icon: <Icons.Zap />, title: 'AI-контент', desc: 'Генерация постов, сторис и текстов под ваш tone of voice. 30+ публикаций в месяц за минуты, не дни.' },
+                { icon: <Icons.Send />, title: 'Автопостинг', desc: 'Публикация в VK, Telegram и другие площадки по расписанию. Контент выходит, даже когда вы спите.' },
+                { icon: <Icons.MessageSquare />, title: 'Чат-боты', desc: 'Автоматическая запись клиентов, ответы на FAQ, напоминания о визитах. Лиды не теряются.' },
+                { icon: <Icons.PieChart />, title: 'Аналитика', desc: 'Дашборд с метриками в реальном времени. Видите охваты, лиды и конверсии без ожидания отчётов.' },
+                { icon: <Icons.Target />, title: 'Таргетинг', desc: 'Настройка и оптимизация рекламы в VK и Яндекс.Директ. Приводим клиентов, которые покупают.' },
+                { icon: <Icons.FileText />, title: 'Отчёты', desc: 'Еженедельные PDF-отчёты с инсайтами и рекомендациями. Прямо в Telegram или на почту.' }
+            ];
+
+            const pricing = [
+                { 
+                    name: 'Starter', 
+                    desc: 'Автоматизация рутины', 
+                    price: '30 000', 
+                    features: [
+                        '15 постов в месяц', 
+                        '1 социальная сеть', 
+                        'AI-генерация контента', 
+                        'Библиотека из 50 промптов',
+                        'Авто-подбор хештегов',
+                        'Базовая аналитика',
+                        '+ Модуль "Репутация" за 10K₽',
+                        '+ Модуль "Умный CRM" за 20K₽'
+                    ]
+                },
+                { 
+                    name: 'Growth', 
+                    desc: 'Первые продажи из соцсетей', 
+                    price: '50 000', 
+                    featured: true, 
+                    features: [
+                        '30 постов в месяц', 
+                        '2-3 социальные сети', 
+                        'Чат-бот с квалификацией лидов',
+                        'Конкурентная разведка (5 конкурентов)',
+                        'Автоматические акции по паттернам',
+                        'Реактивный контент на тренды',
+                        'Lead Scoring (оценка лидов 1-10)',
+                        'Автоответы в Direct',
+                        '+ Модуль "Репутация" за 10K₽',
+                        '+ Модуль "Умный CRM" за 20K₽'
+                    ]
+                },
+                { 
+                    name: 'Scale', 
+                    desc: 'Полноценный отдел маркетинга', 
+                    price: '90 000', 
+                    features: [
+                        '45 постов в месяц', 
+                        '3+ социальных сети', 
+                        'Автозапуск и тест рекламы',
+                        'Динамическое ценообразование',
+                        'Customer Journey Map',
+                        'Персонализированные рассылки',
+                        'Promo Calendar на 3 месяца',
+                        'Автоматический Retargeting',
+                        'Предиктивная аналитика ±5%',
+                        '+ Модуль "Репутация" за 10K₽',
+                        '+ Модуль "Умный CRM" за 20K₽'
+                    ]
+                },
+                { 
+                    name: 'Enterprise', 
+                    desc: 'Максимум + индивидуальные модули', 
+                    price: '100 000+', 
+                    featured: false,
+                    enterprise: true,
+                    features: [
+                        'Всё из Scale', 
+                        'White Label отчёты с вашим брендом',
+                        'Персональный аккаунт-менеджер',
+                        'API-интеграция с вашей CRM',
+                        'Кастомные модули под задачу',
+                        '',
+                        '▸ Модуль "Репутация" (включён)',
+                        '▸ Модуль "Умный CRM" (включён)',
+                        '▸ Модуль "Контент-план на стероидах" +15K₽',
+                        '▸ Модуль "Партнёрский маркетинг" +25K₽',
+                        '▸ Любой кастомный модуль по запросу'
+                    ]
+                }
+            ];
+
+            return (
+                <div className="landing">
+                    <nav className={scrolled ? 'scrolled' : ''}>
+                        <div className="container">
+                            <Logo />
+                            <ul className="nav-links">
+                                <li><a href="#features">Возможности</a></li>
+                                <li><a href="#pricing">Цены</a></li>
+                                <li><a href="#comparison">Сравнение</a></li>
+                            </ul>
+                            <button className="nav-cta" onClick={() => window.open('wok_demo_dashboard.html', '_blank')}>Демо панели</button>
+                        </div>
+                    </nav>
+
+                    <section className="hero">
+                        <div className="hero-bg"></div>
+                        <div className="container">
+                            <div className="hero-content">
+                                <div className="hero-badge">
+                                    <span className="dot"></span>
+                                    AI-автоматизация маркетинга 2025
+                                </div>
+                                <h1>Штат маркетинга<br/><span>за 40 000 ₽</span></h1>
+                                <p>AI генерирует контент, публикует посты, отвечает клиентам и присылает отчёты. Вы получаете результат — мы берём рутину на себя.</p>
+                                <div className="hero-buttons">
+                                    <a href="#contact" className="btn-primary">
+                                        Получить консультацию
+                                        <Icons.ArrowRight />
+                                    </a>
+                                    <a href="#features" className="btn-secondary">Узнать больше</a>
+                                </div>
+                            </div>
+
+                            <div className="stats">
+                                <div className="stat">
+                                    <div className="stat-number">15 мин</div>
+                                    <div className="stat-label">Генерация контента</div>
+                                </div>
+                                <div className="stat">
+                                    <div className="stat-number">24/7</div>
+                                    <div className="stat-label">Работа системы</div>
+                                </div>
+                                <div className="stat">
+                                    <div className="stat-number">×5</div>
+                                    <div className="stat-label">Дешевле агентства</div>
+                                </div>
+                            </div>
+
+                            <MorphingDashboard />
+                        </div>
+                    </section>
+
+                    <section className="features" id="features">
+                        <div className="container">
+                            <div className="section-header">
+                                <h2>Всё, что нужно для роста</h2>
+                                <p>Полный цикл маркетинга — от создания контента до аналитики результатов</p>
+                            </div>
+                            <div className="features-grid">
+                                {features.map((f, i) => (
+                                    <div key={i} className="feature-card" style={{ transitionDelay: `${i * 0.1}s` }}>
+                                        <div className="feature-icon">{f.icon}</div>
+                                        <h3>{f.title}</h3>
+                                        <p>{f.desc}</p>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="comparison" id="comparison">
+                        <div className="container">
+                            <div className="section-header">
+                                <h2>Почему мы, а не они</h2>
+                                <p>Сравните стоимость и возможности разных вариантов</p>
+                            </div>
+                            <div className="comparison-table">
+                                <div className="comparison-row header">
+                                    <div className="comparison-cell">Параметр</div>
+                                    <div className="comparison-cell highlight">WOK Agency</div>
+                                    <div className="comparison-cell">Обычное агентство</div>
+                                    <div className="comparison-cell">Фрилансер</div>
+                                </div>
+                                {[
+                                    ['Стоимость в месяц', '30-60K ₽', '80-200K ₽', '15-40K ₽'],
+                                    ['Скорость создания контента', '15-30 минут', '1-3 дня', '2-5 дней'],
+                                    ['Работает 24/7', '✓', '✗', '✗'],
+                                    ['Realtime-аналитика', '✓', '✗', '✗'],
+                                    ['Консистентное качество', '✓', 'Зависит от менеджера', 'Зависит от настроения'],
+                                    ['Масштабируется', '✓', '✗', '✗']
+                                ].map((row, i) => (
+                                    <div key={i} className="comparison-row">
+                                        <div className="comparison-cell">{row[0]}</div>
+                                        <div className="comparison-cell highlight">
+                                            {row[1] === '✓' ? <span className="check">✓</span> : row[1] === '✗' ? <span className="cross">✗</span> : row[1]}
+                                        </div>
+                                        <div className="comparison-cell">
+                                            {row[2] === '✓' ? <span className="check">✓</span> : row[2] === '✗' ? <span className="cross">✗</span> : row[2]}
+                                        </div>
+                                        <div className="comparison-cell">
+                                            {row[3] === '✓' ? <span className="check">✓</span> : row[3] === '✗' ? <span className="cross">✗</span> : row[3]}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="pricing" id="pricing">
+                        <div className="container">
+                            <div className="section-header">
+                                <h2>Прозрачные цены</h2>
+                                <p>Выберите тариф под ваши задачи. Без скрытых платежей.</p>
+                            </div>
+                            <div className="pricing-grid">
+                                {pricing.map((p, i) => (
+                                    <div key={i} className={`pricing-card ${p.featured ? 'featured' : ''} ${p.enterprise ? 'enterprise' : ''}`}>
+                                        {p.featured && <div className="pricing-badge">Популярный</div>}
+                                        {p.enterprise && <div className="pricing-badge" style={{background: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)'}}>Premium</div>}
+                                        <div className="pricing-name">{p.name}</div>
+                                        <div className="pricing-desc">{p.desc}</div>
+                                        <div className="pricing-price">{p.price}<span> ₽/мес</span></div>
+                                        <ul className="pricing-features">
+                                            {p.features.map((f, j) => (
+                                                f ? <li key={j}><Icons.Check />{f}</li> : <li key={j} style={{height: '12px'}}></li>
+                                            ))}
+                                        </ul>
+                                        <a href="#contact" className={p.featured || p.enterprise ? 'btn-primary' : 'btn-secondary'}>
+                                            {p.enterprise ? 'Обсудить проект' : 'Выбрать тариф'}
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="cta-section" id="contact">
+                        <div className="container">
+                            <div className="cta-wrapper">
+                                <div className="cta-content">
+                                    <h2>Готовы автоматизировать маркетинг?</h2>
+                                    <p>Оставьте заявку — мы проведём бесплатный аудит ваших соцсетей и покажем, как AI может увеличить поток клиентов.</p>
+                                    <ul className="cta-benefits">
+                                        {['Бесплатный аудит текущего маркетинга', 'Персональная демонстрация возможностей', 'Готовая стратегия за 15 минут', 'Без обязательств к покупке'].map((b, i) => (
+                                            <li key={i}><Icons.ArrowRight />{b}</li>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="cta-form">
+                                    <h3>Оставить заявку</h3>
+                                    <p>Ответим в течение 2 часов в рабочее время</p>
+                                    <form onSubmit={handleSubmit}>
+                                        <div className="form-group">
+                                            <label>Имя</label>
+                                            <input type="text" placeholder="Как вас зовут?" value={formData.name} onChange={e => setFormData({...formData, name: e.target.value})} required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Телефон или Telegram</label>
+                                            <input type="text" placeholder="+7 (999) 123-45-67 или @username" value={formData.phone} onChange={e => setFormData({...formData, phone: e.target.value})} required />
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Тип бизнеса</label>
+                                            <select value={formData.business} onChange={e => setFormData({...formData, business: e.target.value})} required>
+                                                <option value="">Выберите нишу</option>
+                                                <option value="detailing">Автодетейлинг</option>
+                                                <option value="beauty">Салон красоты / Барбершоп</option>
+                                                <option value="fitness">Фитнес-студия</option>
+                                                <option value="medical">Медицина / Остеопатия</option>
+                                                <option value="cafe">Кафе / Ресторан</option>
+                                                <option value="other">Другое</option>
+                                            </select>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>Что хотите улучшить?</label>
+                                            <textarea placeholder="Расскажите о вашей ситуации и целях..." value={formData.message} onChange={e => setFormData({...formData, message: e.target.value})}></textarea>
+                                        </div>
+                                        <button type="submit" className="btn-primary" style={submitted ? { background: '#22c55e' } : {}}>
+                                            {submitted ? <><Icons.Check /> Заявка отправлена!</> : <>Отправить заявку <Icons.ArrowRight /></>}
+                                        </button>
+                                    </form>
+                                    <p className="form-note">Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <footer>
+                        <div className="container">
+                            <div className="footer-content">
+                                <Logo />
+                                <ul className="footer-links">
+                                    <li><a href="#features">Возможности</a></li>
+                                    <li><a href="#pricing">Цены</a></li>
+                                    <li><a href="#contact">Контакты</a></li>
+                                    <li><a onClick={() => window.open('wok_demo_dashboard.html', '_blank')}>Демо панели</a></li>
+                                </ul>
+                            </div>
+                            <div className="footer-bottom">© 2025 WOK Agency. AI-маркетинг для локального бизнеса.</div>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        // ========== DASHBOARD PAGE ==========
+        const DashboardPage = ({ onBack }) => {
+            const [activeTab, setActiveTab] = useState('strategy');
+            const [activeNav, setActiveNav] = useState('dashboard');
+
+            const tabs = [
+                { id: 'context', label: 'Контекст', icon: <Icons.FileText /> },
+                { id: 'audience', label: 'Целевая аудитория', icon: <Icons.Users /> },
+                { id: 'competitors', label: 'Конкуренты', icon: <Icons.BarChart /> },
+                { id: 'strategy', label: 'Стратегия', icon: <Icons.Play /> },
+                { id: 'actions', label: 'План действий', icon: <Icons.Edit /> },
+                { id: 'metrics', label: 'Метрики', icon: <Icons.PieChart /> }
+            ];
+
+            const navItems = [
+                { id: 'dashboard', label: 'Дашборд', icon: <Icons.PieChart /> },
+                { id: 'content', label: 'Контент-план', icon: <Icons.Calendar /> },
+                { id: 'leads', label: 'Лиды', icon: <Icons.Users /> },
+                { id: 'chatbot', label: 'Чат-бот', icon: <Icons.MessageSquare /> }
+            ];
+
+            const analyticsItems = [
+                { id: 'stats', label: 'Статистика', icon: <Icons.BarChart /> },
+                { id: 'reports', label: 'Отчёты', icon: <Icons.FileText /> }
+            ];
+
+            const messages = [
+                '"Защита нового авто от первого дня — сохраните заводской блеск на годы"',
+                '"5-летняя гарантия на керамику — мы уверены в качестве"',
+                '"Сертифицированные мастера с опытом от 7 лет работы с премиум-брендами"',
+                '"Бесплатная диагностика ЛКП — узнайте состояние кузова за 15 минут"'
+            ];
+
+            const pains = [
+                { title: 'Страх испортить новый автомобиль', solution: 'Видеофиксация всех этапов работы, детальный фотоотчёт до/после, письменная гарантия на каждую услугу.', quote: '"Показываем весь процесс — вы контролируете каждый шаг"' },
+                { title: 'Непонятное ценообразование', solution: 'Калькулятор стоимости на сайте, фиксированные пакеты услуг, никаких скрытых доплат.', quote: '"Цена в договоре = цена по факту. Без сюрпризов"' },
+                { title: 'Долгое ожидание записи', solution: 'Онлайн-запись с выбором удобного слота, SMS-напоминания, экспресс-услуги за доплату.', quote: '"Запишитесь онлайн за 30 секунд на удобное время"' }
+            ];
+
+            const metrics = [
+                { label: 'Охват VK', value: '45K', change: '+180%' },
+                { label: 'Заявки/мес', value: '35', change: '+120%' },
+                { label: 'Средний чек', value: '78K ₽', change: '+15%' },
+                { label: 'ROI маркетинга', value: '340%', change: 'Прогноз' }
+            ];
+
+            const actions = [
+                { title: 'Настройка бота записи в Telegram', desc: 'Автоматическая запись клиентов, напоминания, сбор отзывов', status: 'done' },
+                { title: 'Запуск контент-плана VK', desc: '15 постов: кейсы до/после, процесс работы, отзывы клиентов', status: 'active' },
+                { title: 'Настройка таргетированной рекламы', desc: 'Аудитории: владельцы премиум-авто 25-45 лет, ЮЗАО Москвы', status: 'pending' },
+                { title: 'Интеграция с YCLIENTS', desc: 'Синхронизация записей, автоматические напоминания клиентам', status: 'pending' }
+            ];
+
+            return (
+                <div className="dashboard">
+                    <aside className="sidebar">
+                        <div className="sidebar-logo" onClick={onBack}>
+                            <div className="logo-icon">
+                                <Icons.Fire />
+                            </div>
+                            <span>WOK</span>
+                        </div>
+
+                        <nav className="sidebar-nav">
+                            <div className="nav-section">
+                                <div className="nav-section-title">Проекты</div>
+                                {navItems.map(item => (
+                                    <button key={item.id} className={`nav-item ${activeNav === item.id ? 'active' : ''}`} onClick={() => setActiveNav(item.id)}>
+                                        {item.icon}
+                                        {item.label}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="nav-section">
+                                <div className="nav-section-title">Аналитика</div>
+                                {analyticsItems.map(item => (
+                                    <button key={item.id} className={`nav-item ${activeNav === item.id ? 'active' : ''}`} onClick={() => setActiveNav(item.id)}>
+                                        {item.icon}
+                                        {item.label}
+                                    </button>
+                                ))}
+                            </div>
+
+                            <div className="nav-section">
+                                <div className="nav-section-title">Настройки</div>
+                                <button className={`nav-item ${activeNav === 'settings' ? 'active' : ''}`} onClick={() => setActiveNav('settings')}>
+                                    <Icons.Settings />
+                                    Интеграции
+                                </button>
+                            </div>
+                        </nav>
+
+                        <div className="sidebar-user">
+                            <div className="user-avatar">АС</div>
+                            <div className="user-info">
+                                <div className="user-name">Алексей Смирнов</div>
+                                <div className="user-role">Администратор</div>
+                            </div>
+                        </div>
+                    </aside>
+
+                    <main className="main-content">
+                        <button className="back-btn" onClick={onBack}>
+                            <Icons.ArrowLeft />
+                            Вернуться на сайт
+                        </button>
+
+                        <header className="page-header">
+                            <div className="page-header-top">
+                                <div className="page-icon">
+                                    <Icons.Activity />
+                                </div>
+                                <div>
+                                    <h1 className="page-title">Маркетинговое исследование студии DETAILX</h1>
+                                    <p className="page-subtitle">Москва • Автодетейлинг • Премиум сегмент</p>
+                                </div>
+                            </div>
+                        </header>
+
+                        <div className="tabs">
+                            {tabs.map(tab => (
+                                <button key={tab.id} className={`tab ${activeTab === tab.id ? 'active' : ''}`} onClick={() => setActiveTab(tab.id)}>
+                                    {tab.icon}
+                                    {tab.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        <div className="section-title-dash">
+                            <Icons.Play />
+                            Стратегические рекомендации
+                        </div>
+
+                        <div className="utp-card">
+                            <div className="utp-header">
+                                <div className="utp-icon">
+                                    <Icons.Star />
+                                </div>
+                                <div className="utp-title">Уникальное торговое предложение</div>
+                            </div>
+                            <p className="utp-text">
+                                "Премиальный детейлинг с гарантией результата: защита кузова керамикой Gtechniq на 5 лет с бесплатной инспекцией каждые 6 месяцев. Единственная студия в ЮЗАО с сертифицированными мастерами и собственной лабораторией контроля качества."
+                            </p>
+                        </div>
+
+                        <div className="two-columns">
+                            <div className="card">
+                                <div className="card-header">
+                                    <div className="card-header-icon blue">
+                                        <Icons.MessageSquare />
+                                    </div>
+                                    <div className="card-header-title">Ключевые месседжи</div>
+                                </div>
+                                <div className="card-body">
+                                    {messages.map((m, i) => (
+                                        <div key={i} className="message-item">
+                                            <div className="message-text">{m}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            <div className="card">
+                                <div className="card-header">
+                                    <div className="card-header-icon red">
+                                        <Icons.Heart />
+                                    </div>
+                                    <div className="card-header-title">Топ-3 боли ЦА и решения</div>
+                                </div>
+                                <div className="card-body">
+                                    {pains.map((p, i) => (
+                                        <div key={i} className="pain-item">
+                                            <div className="pain-title">{p.title}</div>
+                                            <div className="pain-solution"><strong>Решение:</strong> {p.solution}</div>
+                                            <div className="pain-quote">{p.quote}</div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="section-title-dash">
+                            <Icons.BarChart />
+                            Прогнозируемые метрики (3 месяца)
+                        </div>
+
+                        <div className="metrics-grid">
+                            {metrics.map((m, i) => (
+                                <div key={i} className="metric-card">
+                                    <div className="metric-label">{m.label}</div>
+                                    <div className="metric-value">{m.value}</div>
+                                    <div className="metric-change positive">
+                                        <Icons.ChevronUp />
+                                        {m.change}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        <div className="section-title-dash">
+                            <Icons.Edit />
+                            План действий на первый месяц
+                        </div>
+
+                        <div className="action-list">
+                            {actions.map((a, i) => (
+                                <div key={i} className="action-item">
+                                    <div className="action-number">{i + 1}</div>
+                                    <div className="action-content">
+                                        <div className="action-title">{a.title}</div>
+                                        <div className="action-desc">{a.desc}</div>
+                                    </div>
+                                    <span className={`action-status ${a.status}`}>
+                                        {a.status === 'done' ? 'Готово' : a.status === 'active' ? 'В работе' : 'Ожидает'}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </main>
+                </div>
+            );
+        };
+
+        // ========== MAIN APP ==========
+        const App = () => {
+            const [page, setPage] = useState('landing');
+
+            return page === 'landing' 
+                ? <LandingPage onDashboard={() => setPage('dashboard')} />
+                : <DashboardPage onBack={() => setPage('landing')} />;
+        };
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
