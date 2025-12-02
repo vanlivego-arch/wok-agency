@@ -1,6 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "*.html",...
+  "rewrites": [
+    {
+      "source": "/demo",
+      "destination": "/wok_demo_dashboard.html"
+    }
+  ]
 }
-]}...
